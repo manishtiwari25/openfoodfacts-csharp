@@ -12,7 +12,7 @@ namespace OpenFoodFacts.DotNet
         private readonly HttpClient _httpClient;
         private readonly string _apiUrl;
 
-        public OpenFoodFactsApiClient(IHttpClientFactory clientFactory, string apiUrl)
+        public OpenFoodFactsApiClient(IHttpClientFactory clientFactory, string apiUrl = default)
         {
             _httpClient = clientFactory.CreateClient();
             _apiUrl = apiUrl;
@@ -21,7 +21,7 @@ namespace OpenFoodFacts.DotNet
                 _apiUrl = API_URL;
             }
         }
-        public OpenFoodFactsApiClient(string apiUrl)
+        public OpenFoodFactsApiClient(string apiUrl = default)
         {
             _httpClient = new HttpClient();
             _apiUrl = apiUrl;
@@ -31,7 +31,7 @@ namespace OpenFoodFacts.DotNet
             }
         }
 
-        public OpenFoodFactsApiClient(HttpClient client, string apiUrl)
+        public OpenFoodFactsApiClient(HttpClient client, string apiUrl = default)
         {
             _httpClient = client;
             _apiUrl = apiUrl;

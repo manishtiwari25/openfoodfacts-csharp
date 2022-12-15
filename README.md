@@ -6,7 +6,8 @@
 
 ## Usage
 
-Add one dependency to your POM file:
+Add one dependency to your cs file:
+Console App
 
 
 
