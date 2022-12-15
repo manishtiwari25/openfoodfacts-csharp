@@ -7,15 +7,42 @@
 ## Usage
 
 Add one dependency to your cs file:
-Console App
+```c#
+//Console App
+IOpenFoodFactsApiClient obj = new OpenFoodFactsApiClient();
 
+//Dependency Injection
+service.AddScoped<IOpenFoodFactsApiClient,OpenFoodFactsApiClient>();
 
+//Or
+
+service.AddScoped<IOpenFoodFactsApiClient>(x=>
+{
+	return new OpenFoodFactsApiClient("URL");
+});
+```
 
 Create wrapper object and find product by its barcode:
+```c#
+//Console App
+IOpenFoodFactsApiClient obj = new OpenFoodFactsApiClient();
+await obj.FetchProductByCode("1234");
 
-
-## Demo
-Check also  how to do it.
+//Dependency Injection
+public class Something
+{
+	private readonly IOpenFoodFactsApiClient _client;
+	public Something(IOpenFoodFactsApiClient client)
+	{
+		_client = client;
+	}
+	
+	public async Task FetchProduct()
+	{
+		_client.FetchProductByCode("1234");
+	}
+}
+```
 
 
 ## Third party applications
