@@ -1,4 +1,4 @@
-# Java Wrapper for OpenFoodFacts
+# CSharp(c#) Wrapper for OpenFoodFacts
 
 ##### DotNet (C#) wrapper for https://world.openfoodfacts.org
 
