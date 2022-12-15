@@ -1,0 +1,45 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-test-release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3 
+    - name: Setup .NET  
+      uses: actions/setup-dotnet@v1  
+      with:  
+        dotnet-version: 6.0.x
+      env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag_prefix: ""
+
+    - name: Create a GitHub release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+        name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        
+    - name: Install dependencies  
+      run: dotnet restore src/OpenFoodFacts.DotNet.Wrapper.csproj
+      
+    - name: Build  
+      run: dotnet build --configuration Release --no-restore  src/OpenFoodFacts.DotNet.Wrapper.csproj
+      
+    - name: Build solution and generate NuGet package
+      run: dotnet pack src/OpenFoodFacts.DotNet.Wrapper.csproj -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o out 
+
+    - name: Push generated package to Nuget
+      run: dotnet nuget push ./src/OpenFoodFacts.DotNet.Wrapper/out/*.nupkg --skip-duplicate -k ${{secrets.NUGET_API_KEY}} 
