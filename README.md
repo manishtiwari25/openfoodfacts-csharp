@@ -1,8 +1,7 @@
 # CSharp(c#) Wrapper for OpenFoodFacts
 
 ##### DotNet (C#) wrapper for https://world.openfoodfacts.org
-
-## Current version 
+ 
 
 ## Usage
 
